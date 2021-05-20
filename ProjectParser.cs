@@ -238,7 +238,7 @@ namespace Monad.FLParser
                 case Enums.Event.TextVersion:
                     _project.VersionString = Encoding.UTF8.GetString(dataBytes);
                     if (_project.VersionString.EndsWith("\0")) _project.VersionString = _project.VersionString.Substring(0, _project.VersionString.Length - 1);
-                    var numbers = _project.VersionString.Split('.');
+                    var numbers = (_project.VersionString+".0.0").Split('.');
                     _versionMajor = int.Parse(numbers[0]);
                     _project.Version = (int.Parse(numbers[0]) << 8) +
                                        (int.Parse(numbers[1]) << 4) +
