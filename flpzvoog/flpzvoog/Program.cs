@@ -119,7 +119,15 @@ namespace flpzvoog
 						{
 							Console.WriteLine("				'Channel': '" + aut.Channel.Id + "'");
 						}
-						Console.WriteLine("				'InsertId ': '" + aut.InsertId + "'");
+						Console.WriteLine("				'InsertId': '" + aut.InsertId + "'");
+						Console.WriteLine("				'Keyframes': {");
+						for(int kk=0;kk< aut.Keyframes.Length; kk++) { 
+							Console.WriteLine("					{f:" + aut.Keyframes[kk].Value + "/" + aut.Keyframes[kk].Position + "/" + aut.Keyframes[kk].Tension  + "}");
+						}
+						Console.WriteLine("					}");
+						Console.WriteLine("				'Parameter': '" + aut.Parameter+ "'");
+						Console.WriteLine("				'SlotId': '" + aut.SlotId + "'");
+						Console.WriteLine("				'VstParameter': '" + aut.VstParameter+ "'");
 						Console.WriteLine("				}");
 					}
 					else
