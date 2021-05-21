@@ -58,7 +58,49 @@ namespace flpzvoog
 					GeneratorData gd = (GeneratorData)singleChan.Data;
 					Console.WriteLine("			,'generator': {");
 					Console.WriteLine("				'ArpChord': '" + gd.ArpChord + "'");
-					Console.WriteLine("				'ArpDir': '" + gd.ArpDir + "'");
+					Console.WriteLine("				,'ArpDir': '" + gd.ArpDir + "'");
+					Console.WriteLine("				,'ArpGate': '" + gd.ArpGate + "'");
+					Console.WriteLine("				,'ArpRange': '" + gd.ArpRange + "'");
+					Console.WriteLine("				,'ArpRepeat': '" + gd.ArpRepeat + "'");
+					Console.WriteLine("				,'ArpSlide': '" + gd.ArpSlide + "'");
+					Console.WriteLine("				,'ArpTime': '" + gd.ArpTime + "'");
+					Console.WriteLine("				,'BaseNote': '" + gd.BaseNote + "'");
+					Console.WriteLine("				,'GeneratorName': '" + gd.GeneratorName + "'");
+					Console.WriteLine("				,'Insert': '" + gd.Insert + "'");
+					Console.WriteLine("				,'LayerParent': '" + gd.LayerParent + "'");
+					Console.WriteLine("				,'Panning': '" + gd.Panning + "'");
+					if (gd.Plugin == null)
+					{
+						Console.WriteLine("				,'Plugin': null");
+					}
+					else
+					{
+						Console.WriteLine("				,'Plugin': {");
+						Console.WriteLine("					'FileName': '" + gd.Plugin.FileName + "'");
+						Console.WriteLine("					,'Flags': '" + gd.Plugin.Flags + "'");
+						Console.WriteLine("					,'Guid': '" + gd.Plugin.Guid + "'");
+						Console.WriteLine("					,'InfoKind': '" + gd.Plugin.InfoKind + "'");
+						Console.WriteLine("					,'InputInfo': '" + gd.Plugin.InputInfo + "'");
+						Console.WriteLine("					,'MidiInPort': '" + gd.Plugin.MidiInPort + "'");
+						Console.WriteLine("					,'MidiOutPort': '" + gd.Plugin.MidiOutPort + "'");
+						Console.WriteLine("					,'Name': '" + gd.Plugin.Name + "'");
+						Console.WriteLine("					,'NumInputs': '" + gd.Plugin.NumInputs + "'");
+						Console.WriteLine("					,'NumOutputs': '" + gd.Plugin.NumOutputs + "'");
+						Console.WriteLine("					,'OutputInfo': '" + gd.Plugin.OutputInfo + "'");
+						Console.WriteLine("					,'PitchBendRange': '" + gd.Plugin.PitchBendRange + "'");
+						Console.WriteLine("					,'State': '" + gd.Plugin.State + "'");
+						Console.WriteLine("					,'VendorName': '" + gd.Plugin.VendorName + "'");
+						Console.WriteLine("					,'VstId': '" + gd.Plugin.VstId + "'");
+						Console.WriteLine("					,'VstNumber': '" + gd.Plugin.VstNumber + "'");
+						Console.WriteLine("					}");
+					}
+					Console.WriteLine("				,'PluginSettings': '" + gd.PluginSettings + "'");
+					Console.WriteLine("				,'SampleAmp': '" + gd.SampleAmp + "'");
+					Console.WriteLine("				,'SampleFileName': '" + gd.SampleFileName + "'");
+					Console.WriteLine("				,'SampleReversed': '" + gd.SampleReversed + "'");
+					Console.WriteLine("				,'SampleReverseStereo': '" + gd.SampleReverseStereo + "'");
+					Console.WriteLine("				,'SampleUseLoopPoints': '" + gd.SampleUseLoopPoints + "'");
+					Console.WriteLine("				,'Volume ': '" + gd.Volume + "'");
 					Console.WriteLine("				}");
 					Console.WriteLine("			,'automation': null");
 				}
