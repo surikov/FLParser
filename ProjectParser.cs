@@ -203,8 +203,10 @@ namespace Monad.FLParser
         {
             var dataLen = GetBufferLen(reader);
             var dataBytes = reader.ReadBytes(dataLen);
-            var unicodeString = Encoding.Unicode.GetString(dataBytes);
-            if (unicodeString.EndsWith("\0")) unicodeString = unicodeString.Substring(0, unicodeString.Length - 1);
+			//var unicodeString = Encoding.Unicode.GetString(dataBytes);
+			//var defaultEncodedString = System.Text.Encoding.Default.GetString(dataBytes);
+			var unicodeString = System.Text.Encoding.Default.GetString(dataBytes);
+			if (unicodeString.EndsWith("\0")) unicodeString = unicodeString.Substring(0, unicodeString.Length - 1);
 
             OutputLine($"text: {unicodeString}");
 
@@ -222,8 +224,9 @@ namespace Monad.FLParser
                     _project.ProjectTitle = unicodeString;
                     break;
                 case Enums.Event.TextAuthor:
-                    _project.Author = unicodeString;
-                    break;
+					_project.Author = unicodeString;
+					//_project.Author = defaultEncodedString;
+					break;
                 case Enums.Event.TextComment:
                     _project.Comment = unicodeString;
                     break;
