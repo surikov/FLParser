@@ -203,9 +203,9 @@ namespace Monad.FLParser
         {
             var dataLen = GetBufferLen(reader);
             var dataBytes = reader.ReadBytes(dataLen);
-			//var unicodeString = Encoding.Unicode.GetString(dataBytes);
+			var unicodeString = Encoding.Unicode.GetString(dataBytes);
 			//var defaultEncodedString = System.Text.Encoding.Default.GetString(dataBytes);
-			var unicodeString = System.Text.Encoding.Default.GetString(dataBytes);
+			//var unicodeString = System.Text.Encoding.Default.GetString(dataBytes);
 			if (unicodeString.EndsWith("\0")) unicodeString = unicodeString.Substring(0, unicodeString.Length - 1);
 
             OutputLine($"text: {unicodeString}");
