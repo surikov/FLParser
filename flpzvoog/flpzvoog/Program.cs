@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using Monad.FLParser;
 
-namespace flpzvoog {
-	class Program {
+namespace flpzvoog
+{
+	class Program
+	{
 		static void Main(string[] args) {
 			if (args.Length > 0) {
 				testAll(args[0]);
@@ -18,26 +20,26 @@ namespace flpzvoog {
 		}
 		static void dumpPlugin(Plugin plugin) {
 			if (plugin == null) {
-				Console.WriteLine("				,'Plugin': null");
+				Console.WriteLine("					,'Plugin': null");
 			} else {
-				Console.WriteLine("				,'Plugin': {");
-				Console.WriteLine("					'FileName': '" + plugin.FileName + "'");
-				Console.WriteLine("					,'Flags': '" + plugin.Flags + "'");
-				Console.WriteLine("					,'Guid': '" + plugin.Guid + "'");
-				Console.WriteLine("					,'InfoKind': '" + plugin.InfoKind + "'");
-				Console.WriteLine("					,'InputInfo': '" + plugin.InputInfo + "'");
-				Console.WriteLine("					,'MidiInPort': '" + plugin.MidiInPort + "'");
-				Console.WriteLine("					,'MidiOutPort': '" + plugin.MidiOutPort + "'");
-				Console.WriteLine("					,'Name': '" + plugin.Name + "'");
-				Console.WriteLine("					,'NumInputs': '" + plugin.NumInputs + "'");
-				Console.WriteLine("					,'NumOutputs': '" + plugin.NumOutputs + "'");
-				Console.WriteLine("					,'OutputInfo': '" + plugin.OutputInfo + "'");
-				Console.WriteLine("					,'PitchBendRange': '" + plugin.PitchBendRange + "'");
-				Console.WriteLine("					,'State': '" + plugin.State + "'");
-				Console.WriteLine("					,'VendorName': '" + plugin.VendorName + "'");
-				Console.WriteLine("					,'VstId': '" + plugin.VstId + "'");
-				Console.WriteLine("					,'VstNumber': '" + plugin.VstNumber + "'");
-				Console.WriteLine("					}");
+				Console.WriteLine("					,'Plugin': {");
+				Console.WriteLine("						'FileName': '" + plugin.FileName + "'");
+				Console.WriteLine("						,'Flags': '" + plugin.Flags + "'");
+				Console.WriteLine("						,'Guid': '" + plugin.Guid + "'");
+				Console.WriteLine("						,'InfoKind': '" + plugin.InfoKind + "'");
+				Console.WriteLine("						,'InputInfo': '" + plugin.InputInfo + "'");
+				Console.WriteLine("						,'MidiInPort': '" + plugin.MidiInPort + "'");
+				Console.WriteLine("						,'MidiOutPort': '" + plugin.MidiOutPort + "'");
+				Console.WriteLine("						,'Name': '" + plugin.Name + "'");
+				Console.WriteLine("						,'NumInputs': '" + plugin.NumInputs + "'");
+				Console.WriteLine("						,'NumOutputs': '" + plugin.NumOutputs + "'");
+				Console.WriteLine("						,'OutputInfo': '" + plugin.OutputInfo + "'");
+				Console.WriteLine("						,'PitchBendRange': '" + plugin.PitchBendRange + "'");
+				Console.WriteLine("						,'State': '" + plugin.State + "'");
+				Console.WriteLine("						,'VendorName': '" + plugin.VendorName + "'");
+				Console.WriteLine("						,'VstId': '" + plugin.VstId + "'");
+				Console.WriteLine("						,'VstNumber': '" + plugin.VstNumber + "'");
+				Console.WriteLine("						}");
 			}
 		}
 		static void dumpGenerator(GeneratorData gd) {
@@ -76,21 +78,21 @@ namespace flpzvoog {
 			} else {
 				Console.WriteLine("				'Channel': '" + aut.Channel.Id + "'");
 			}
-			Console.WriteLine("				'InsertId': '" + aut.InsertId + "'");
-			Console.WriteLine("				'Keyframes': [");
+			Console.WriteLine("				,'InsertId': '" + aut.InsertId + "'");
+			Console.WriteLine("				,'Keyframes': [");
 			string zp = "";
 			for (int kk = 0; kk < aut.Keyframes.Length; kk++) {
 				dumpKeyFrame(aut.Keyframes[kk], zp);
 				zp = ",";
 			}
 			Console.WriteLine("					]");
-			Console.WriteLine("				'Parameter': '" + aut.Parameter + "'");
-			Console.WriteLine("				'SlotId': '" + aut.SlotId + "'");
-			Console.WriteLine("				'VstParameter': '" + aut.VstParameter + "'");
+			Console.WriteLine("				,'Parameter': '" + aut.Parameter + "'");
+			Console.WriteLine("				,'SlotId': '" + aut.SlotId + "'");
+			Console.WriteLine("				,'VstParameter': '" + aut.VstParameter + "'");
 			Console.WriteLine("				}");
 		}
 		static void dumpChannel(Channel singleChan, string dlmtr) {
-			Console.WriteLine("		" + dlmtr + "{'Id': '" + singleChan.Id + "', 'Name': '" + singleChan.Name + "' ,'Color':'" + singleChan.Color + "'");
+			Console.WriteLine("		" + dlmtr + "{'Id': '" + singleChan.Id + "', 'Name': '" + singleChan.ChannelName + "' ,'Color':'" + singleChan.Color + "'");
 			if (singleChan.Data.GetType() == typeof(GeneratorData)) {
 				dumpGenerator((GeneratorData)singleChan.Data);
 				Console.WriteLine("			,'automation': null");
@@ -107,31 +109,16 @@ namespace flpzvoog {
 		}
 		static void dumpSlot(InsertSlot insertSlot, string idlmtr) {
 			Console.WriteLine("				" + idlmtr + "{");
+			
 			Console.WriteLine("					'DryWet':'" + insertSlot.DryWet + "'");
+			
 			dumpPlugin(insertSlot.Plugin);
-			/*if (insertSlot.Plugin == null) {
-				Console.WriteLine("					,'Plugin': null");
-			} else {
-				Console.WriteLine("					,'Plugin': {");
-				Console.WriteLine("						'FileName': '" + insertSlot.Plugin.FileName + "'");
-				Console.WriteLine("						,'Flags': '" + insertSlot.Plugin.Flags + "'");
-				Console.WriteLine("						,'Guid': '" + insertSlot.Plugin.Guid + "'");
-				Console.WriteLine("						,'InfoKind': '" + insertSlot.Plugin.InfoKind + "'");
-				Console.WriteLine("						,'InputInfo': '" + insertSlot.Plugin.InputInfo + "'");
-				Console.WriteLine("						,'MidiInPort': '" + insertSlot.Plugin.MidiInPort + "'");
-				Console.WriteLine("						,'MidiOutPort': '" + insertSlot.Plugin.MidiOutPort + "'");
-				Console.WriteLine("						,'Name': '" + insertSlot.Plugin.Name + "'");
-				Console.WriteLine("						,'NumInputs': '" + insertSlot.Plugin.NumInputs + "'");
-				Console.WriteLine("						,'NumOutputs': '" + insertSlot.Plugin.NumOutputs + "'");
-				Console.WriteLine("						,'OutputInfo': '" + insertSlot.Plugin.OutputInfo + "'");
-				Console.WriteLine("						,'PitchBendRange': '" + insertSlot.Plugin.PitchBendRange + "'");
-				Console.WriteLine("						,'State': '" + insertSlot.Plugin.State + "'");
-				Console.WriteLine("						,'VendorName': '" + insertSlot.Plugin.VendorName + "'");
-				Console.WriteLine("						,'VstId': '" + insertSlot.Plugin.VstId + "'");
-				Console.WriteLine("						,'VstNumber': '" + insertSlot.Plugin.VstNumber + "'");
-				Console.WriteLine("						}");
-			}*/
-			Console.WriteLine("					,'PluginSettings':'" + insertSlot.PluginSettings + "'");
+			if (insertSlot.PluginSettings==null) {
+				Console.WriteLine("					,'PluginSettings':null");
+			} else { 
+				Console.WriteLine("					,'PluginSettings':'" + insertSlot.PluginSettings.Length + "'");
+			}
+			//Console.Error.WriteLine("insertSlot " + insertSlot);
 			Console.WriteLine("					,'State':'" + insertSlot.State + "'");
 			Console.WriteLine("					,'Volume':'" + insertSlot.Volume + "'");
 			Console.WriteLine("					}");
@@ -178,15 +165,33 @@ namespace flpzvoog {
 			Console.WriteLine("			,Volume : '" + singleInsert.Volume + "'");
 			Console.WriteLine("			}");
 		}
-		static void dumpPlayListItem(IPlaylistItem itm,string  itdel) {
-			Console.WriteLine("				" + itdel + "{");
-			Console.WriteLine("					'EndOffset': '" + itm.EndOffset + "'");
-			Console.WriteLine("					,'Length': '" + itm.Length + "'");
-			Console.WriteLine("					,'Position': '" + itm.Position + "'");
-			Console.WriteLine("					,'StartOffset': '" + itm.StartOffset + "'");
-			Console.WriteLine("					}");
+		static void dumpPlayListItem(IPlaylistItem itm, string itdel) {
+			string txtline = "				" + itdel + "{";
+			txtline = txtline + "'EndOffset': '" + itm.EndOffset + "'";
+			txtline = txtline + ", 'Length': '" + itm.Length + "'";
+			txtline = txtline + ", 'Position': '" + itm.Position + "'";
+			txtline = txtline + ", 'StartOffset': '" + itm.StartOffset + "'";
+			if (itm.GetType() == typeof(PatternPlaylistItem)) {
+				PatternPlaylistItem pli = (PatternPlaylistItem)itm;
+				txtline = txtline + ", 'pattern_id': '" + pli.Pattern.Id + "'";
+				txtline = txtline + ", 'channel_id': null";
+				txtline = txtline + ", 'muted': '" + pli.Muted + "'";
+			} else {
+				if (itm.GetType() == typeof(ChannelPlaylistItem)) {
+					ChannelPlaylistItem chpli = (ChannelPlaylistItem)itm;
+					txtline = txtline + ", 'pattern_id': null";
+					txtline = txtline + ", 'channel_id': '" + chpli.Channel.Id + "'";
+					txtline = txtline + ", 'muted': '" + chpli.Muted + "'";
+				} else {
+					txtline = txtline + ", 'pattern_id': null";
+					txtline = txtline + ", 'channel_id': null";
+					txtline = txtline + ", 'muted': null";
+				}
+			}
+			txtline = txtline + "}";
+			Console.WriteLine(txtline);
 		}
-		static void dumpTrack(Track track, string dlmtr,int tt) {
+		static void dumpTrack(Track track, string dlmtr, int tt) {
 			Console.WriteLine("		" + dlmtr + "{");
 			Console.WriteLine("			'Items':[");
 			string itdel = "";
@@ -200,11 +205,29 @@ namespace flpzvoog {
 			Console.WriteLine("			,'order':'" + tt + "'");
 			Console.WriteLine("			}");
 		}
-		static void dumpPattern(Pattern pattern,string dlmtr) {
+		static void dumpPattern(Pattern pattern, string dlmtr) {
 			Console.WriteLine("		" + dlmtr + "{");
 			Console.WriteLine("			,'Id':'" + pattern.Id + "'");
 			Console.WriteLine("			,'Name':'" + pattern.Name + "'");
-			Console.WriteLine("			,'Notes':'" + pattern.Notes.Count + "'");
+			Console.WriteLine("			,'Notes':[");
+			string chanDlmtr = "";
+			foreach (KeyValuePair<Channel, List<Note>> notesInChannel in pattern.Notes) {
+				for (int i = 0; i < notesInChannel.Value.Count; i++) {
+					Note note = notesInChannel.Value[i];
+					Console.WriteLine("				" + chanDlmtr + "{'ChannelId': '" + notesInChannel.Key.Id + "', 'Note': {"
+						+ "'FinePitch':'" + note.FinePitch + "'"
+						+ ", 'Key':'" + note.Key + "'"
+						+ ", 'Length':'" + note.Length + "'"
+						+ ", 'Pan':'" + note.Pan + "'"
+						+ ", 'Position':'" + note.Position + "'"
+						+ ", 'Release':'" + note.Release + "'"
+						+ ", 'Velocity':'" + note.Velocity + "'"
+						+ "}}"
+						);
+				}
+				chanDlmtr = ",";
+			}
+			Console.WriteLine("				]");
 			Console.WriteLine("			}");
 		}
 		static void dumpProj(Project project, string filePath) {
@@ -245,7 +268,7 @@ namespace flpzvoog {
 			for (int tt = 0; tt < project.Tracks.Length; tt++) {
 				Track track = project.Tracks[tt];
 				if (track.Items.Count > 0) {
-					dumpTrack(track,dlmtr,tt);
+					dumpTrack(track, dlmtr, tt);
 					dlmtr = ",";
 				}
 			}

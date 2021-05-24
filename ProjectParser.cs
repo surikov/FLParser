@@ -204,18 +204,21 @@ namespace Monad.FLParser
             var dataLen = GetBufferLen(reader);
             var dataBytes = reader.ReadBytes(dataLen);
 			var unicodeString = Encoding.Unicode.GetString(dataBytes);
-			//var defaultEncodedString = System.Text.Encoding.Default.GetString(dataBytes);
+			var defaultEncodedString = System.Text.Encoding.Default.GetString(dataBytes);
 			//var unicodeString = System.Text.Encoding.Default.GetString(dataBytes);
 			if (unicodeString.EndsWith("\0")) unicodeString = unicodeString.Substring(0, unicodeString.Length - 1);
-
-            OutputLine($"text: {unicodeString}");
+			unicodeString= unicodeString.Replace('\n', ' ').Replace('\r', ' ').Replace('\'','"');
+			//unicodeString = unicodeString + "/" + dataBytes.Length;
+			OutputLine($"text: {unicodeString}");
 
             var genData = _curChannel?.Data as GeneratorData;
-
-            switch (eventId)
+			//Console.Error.WriteLine("eventId " + eventId);
+			switch (eventId)
             {
                 case Enums.Event.TextChanName:
-                    if (_curChannel != null) _curChannel.Name = unicodeString;
+					//Console.Error.WriteLine("TextChanName " + unicodeString);
+					if (_curChannel != null) {_curChannel.ChannelName = unicodeString; }
+					else {Console.Error.WriteLine("empty channel for "+ unicodeString); }
                     break;
                 case Enums.Event.TextPatName:
                     if (_curPattern != null) _curPattern.Name = unicodeString;
@@ -253,12 +256,17 @@ namespace Monad.FLParser
                 case Enums.Event.TextInsertName:
                     _curInsert.Name = unicodeString;
                     break;
-            }
+				default:
+					//Console.Error.WriteLine("unknown eventId "+ eventId+" for " + unicodeString);
+					break;
+			}
         }
 
         private void ParseDataEvent(Enums.Event eventId, BinaryReader reader)
         {
-            var dataLen = GetBufferLen(reader);
+			//Console.WriteLine("ParseDataEvent eventId " + eventId);
+
+			var dataLen = GetBufferLen(reader);
             var dataStart = reader.BaseStream.Position;
             var dataEnd = dataStart + dataLen;
 
