@@ -465,15 +465,16 @@ namespace flpzvoog
 		}
 		static void dumpPattern(Pattern pattern, string dlmtr) {
 			Console.WriteLine("		" + dlmtr + "{");
-			Console.WriteLine("			,'Id':'" + pattern.Id + "'");
+			Console.WriteLine("			'Id':'" + pattern.Id + "'");
 			Console.WriteLine("			,'Name':'" + pattern.Name + "'");
 			//Console.WriteLine("			,'Notes':[");
 			string notesTxt="";
-			string chanDlmtr = "";
+			string ntDlmtr = "";
 			foreach (KeyValuePair<Channel, List<Note>> notesInChannel in pattern.Notes) {
+				
 				for (int i = 0; i < notesInChannel.Value.Count; i++) {
 					Note note = notesInChannel.Value[i];
-					notesTxt= notesTxt + chanDlmtr + " {'ChannelId': '" + notesInChannel.Key.Id + "', 'Note': {"
+					notesTxt= notesTxt + ntDlmtr + " {'ChannelId': '" + notesInChannel.Key.Id + "', 'Note': {"
 						+ "'FinePitch':'" + note.FinePitch + "'"
 						+ ", 'Key':'" + note.Key + "'"
 						+ ", 'Length':'" + note.Length + "'"
@@ -483,8 +484,9 @@ namespace flpzvoog
 						+ ", 'Velocity':'" + note.Velocity + "'"
 						+ "}}"
 						;
+					ntDlmtr = ",";
 				}
-				chanDlmtr = ",";
+
 			}
 			Console.WriteLine("			,'Notes':["+ notesTxt + "]");
 			Console.WriteLine("			}");
@@ -541,6 +543,7 @@ namespace flpzvoog
 				dumpPattern(pattern, dlmtr);
 				dlmtr = ",";
 			}
+			Console.WriteLine("		]");
 			Console.WriteLine("}");
 		}
 	}
