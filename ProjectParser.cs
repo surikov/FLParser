@@ -81,14 +81,21 @@ namespace Monad.FLParser
 
             } while (id != "FLdt");
         }
-
+		
         private void ParseEvent(BinaryReader reader)
         {
             var startPos = reader.BaseStream.Position;
             var eventId = (Enums.Event)reader.ReadByte();
-            Output($"{eventId} ({(int)eventId:X2}) at {startPos:X} ");
+			Output($"{eventId} ({(int)eventId:X2}) at {startPos:X} ");
+			//OutputLine($"{(int)eventId}.{eventId}");
+			//Console.WriteLine("");
+			//Console.Write($"{(int)eventId}.{eventId}");
 
-            if (eventId < Enums.Event.Word) ParseByteEvent(eventId, reader);
+			//if(Enums.Event.DataNewPlugin == eventId) { 
+			//		Console.Error.WriteLine("DataNewPlugin " + eventId);
+			//}
+
+			if (eventId < Enums.Event.Word) ParseByteEvent(eventId, reader);
             else if (eventId < Enums.Event.Int) ParseWordEvent(eventId, reader);
             else if (eventId < Enums.Event.Text) ParseDwordEvent(eventId, reader);
             else if (eventId < Enums.Event.Data) ParseTextEvent(eventId, reader);
@@ -100,7 +107,9 @@ namespace Monad.FLParser
             var data = reader.ReadByte();
             if (_verbose) OutputLine($"byte: {data:X2}");
 
-            var genData = _curChannel?.Data as GeneratorData;
+			//Console.Write(" = "+data);
+
+			var genData = _curChannel?.Data as GeneratorData;
 
             switch (eventId)
             {
@@ -124,7 +133,9 @@ namespace Monad.FLParser
             var data = reader.ReadUInt16();
             OutputLine($"word: {data:X4}");
 
-            var genData = _curChannel?.Data as GeneratorData;
+			//Console.Write(" = " + data);
+
+			var genData = _curChannel?.Data as GeneratorData;
 
             switch (eventId)
             {
@@ -169,7 +180,9 @@ namespace Monad.FLParser
             var data = reader.ReadUInt32();
             OutputLine($"int: {data:X8}");
 
-            switch (eventId)
+			//Console.Write(" = " + data);
+
+			switch (eventId)
             {
                 case Enums.Event.DWordColor:
                     if (_curChannel != null) _curChannel.Color = data;
@@ -198,7 +211,7 @@ namespace Monad.FLParser
             }
             return dataLen;
         }
-
+		//int trackCounter=0;
         private void ParseTextEvent(Enums.Event eventId, BinaryReader reader)
         {
             var dataLen = GetBufferLen(reader);
@@ -211,14 +224,24 @@ namespace Monad.FLParser
 			//unicodeString = unicodeString + "/" + dataBytes.Length;
 			OutputLine($"text: {unicodeString}");
 
-            var genData = _curChannel?.Data as GeneratorData;
-			//Console.Error.WriteLine("eventId " + eventId);
+			//Console.Write(" = '" + unicodeString + "'");
+
+			var genData = _curChannel?.Data as GeneratorData;
+			//if(eventId== Enums.Event.TextPluginName)			Console.Error.WriteLine("eventId " + eventId+" = "+ unicodeString);
 			switch (eventId)
             {
-                case Enums.Event.TextChanName:
+				case Enums.Event.TextPluginName:
+					//Console.Error.WriteLine("eventId " + eventId + " = " + unicodeString+": "+ trackCounter+"."+_curChannel+"/"+ _project.Channels.Count);
+					//_project.Tracks[trackCounter].Name= ""+ trackCounter+"."+unicodeString;
+					//_project.Channels[trackCounter].ChannelName= unicodeString;
+					//trackCounter++;
+					if (_curChannel != null) { _curChannel.ChannelName = unicodeString; }
+					break;
+				case Enums.Event.TextChanName:
+
 					//Console.Error.WriteLine("TextChanName " + unicodeString);
 					if (_curChannel != null) {_curChannel.ChannelName = unicodeString; }
-					else {Console.Error.WriteLine("empty channel for "+ unicodeString); }
+					//else {Console.Error.WriteLine("empty channel for "+ unicodeString); }
                     break;
                 case Enums.Event.TextPatName:
                     if (_curPattern != null) _curPattern.Name = unicodeString;
@@ -262,7 +285,15 @@ namespace Monad.FLParser
 			}
         }
 
-        private void ParseDataEvent(Enums.Event eventId, BinaryReader reader)
+		private void _ParseDataEvent(Enums.Event eventId, BinaryReader reader) {
+			var dataLen = GetBufferLen(reader);
+			var dataBytes = reader.ReadBytes(dataLen);
+			string txt="";
+			for(var i=0;i< dataBytes.Length;i++)txt=txt+"/"+ dataBytes[i];
+			Console.Write(" = [" + txt + "]");
+		}
+
+		private void ParseDataEvent(Enums.Event eventId, BinaryReader reader)
         {
 			//Console.WriteLine("ParseDataEvent eventId " + eventId);
 
@@ -276,7 +307,8 @@ namespace Monad.FLParser
 
             switch (eventId)
             {
-                case Enums.Event.DataPluginParams:
+				
+				case Enums.Event.DataPluginParams:
                     if (slotData != null)
                     {
                         OutputLine($"Found plugin settings for insert (id {_curInsert.Id})");
